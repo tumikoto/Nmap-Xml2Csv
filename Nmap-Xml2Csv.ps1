@@ -1,6 +1,6 @@
 param (
-	[Parameter(Mandatory=$true,Position=1)][string]$XMLfile,
-	[Parameter(Mandatory=$true,Position=2)][string]$CSVfile
+	[Parameter(Mandatory=$false,Position=1)][string]$XMLfile,
+	[Parameter(Mandatory=$false,Position=2)][string]$CSVfile
 )
 
 # Checking pre-reqs
@@ -38,6 +38,8 @@ Foreach ($target in $XML.nmaprun.host) {
 		$Port = $portscan.portid
 		$State = $portscan.state.state
 		$Service = $portscan.service.name
+		$Product = $portscan.service.product
+		$Version = $portscan.service.version
 		
 		# Create new object to store extracted information RE this host/ports
 		$Result = New-Object -TypeName PSObject
@@ -46,6 +48,8 @@ Foreach ($target in $XML.nmaprun.host) {
 		Add-Member -InputObject $Result -MemberType NoteProperty -Name "Port" -Value $Port
 		Add-Member -InputObject $Result -MemberType NoteProperty -Name "State" -Value $State
 		Add-Member -InputObject $Result -MemberType NoteProperty -Name "Service" -Value $Service
+		Add-Member -InputObject $Result -MemberType NoteProperty -Name "Product" -Value $Product
+		Add-Member -InputObject $Result -MemberType NoteProperty -Name "Version" -Value $Version
 		
 		# Add result object to results array
 		$Results += $Result
